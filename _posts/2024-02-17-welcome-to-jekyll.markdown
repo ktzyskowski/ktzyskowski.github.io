@@ -23,7 +23,7 @@ print_hi('Tom')
 {% endhighlight %}
 
 $$
-\Theta + \sum_{1}^{\above{y}+2}(\wedge{x}+3) + 2 = 2^3
+\Theta + \sum_{1}^{y+2}(\wedge{x}+3) + 2 = 2^3
 $$
 
 {% highlight python %}

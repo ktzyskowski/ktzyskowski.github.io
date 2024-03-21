@@ -21,7 +21,8 @@
 title: Kevin Zyskowski
 email: zyskowski.k@northeastern.edu
 # description: >- # this means to ignore newlines until "baseurl:"
-#   MSAI @ Northeastern. ML/AI Enthusiast.
+#   ML/AI enthusiast, currently pursuing a Master's degree at Northeastern
+#   University.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: ktzyskowski
