@@ -36,8 +36,10 @@ date: YYYY-MM-DD HH:MM:SS -0500
 ---
 ```
 
-## Troubleshooting
+### Drafting a blog post
 
-**`ffi` fails to install on Ruby 3.3+:** Jekyll 4.2.x pulls an old `ffi` that won't build. The Gemfile pins `jekyll ~> 4.3` to avoid this. If you hit the error, delete `Gemfile.lock` and re-run `bundle install`.
+Create a file in `_drafts/` and once you're ready, follow the steps above to make it a published post.
+
+## Troubleshooting
 
 **Bundler version mismatch:** If bundler complains the lockfile was generated with a different version, delete `Gemfile.lock` and re-run `bundle install`.
