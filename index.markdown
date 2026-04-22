@@ -1,9 +1,14 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-# layout: home
-layout: null
+layout: page
+title: Home
+permalink: /
+showtitle: false
 ---
 
-Website under construction.
+## Hi, I'm Kevin
+
+I'm an ML/AI engineer interested in building things that learn.
+
+- Read my [blog](/blog/) for posts on machine learning, software, and side projects.
+- Learn more on the [about](/about/) page.
+- Find me on [GitHub](https://github.com/ktzyskowski) and [LinkedIn](https://linkedin.com/in/ktzyskowski).
