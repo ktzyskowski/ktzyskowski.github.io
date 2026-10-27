@@ -1,0 +1,16 @@
+cv:
+  name: Kevin Zyskowski
+  label: Applied ML Researcher
+  email: ktzyskowski@gmail.com
+  
+  social_networks:
+    - network: GitHub
+      username: ktzyskowski
+    - network: LinkedIn
+      username: ktzyskowski
+
+  sections:
+    Education:
+      - institution: Northeastern University
+        area: Artificial Intelligence
+        studyType: MS

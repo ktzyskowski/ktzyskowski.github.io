@@ -1,0 +1,18 @@
+{%- comment -%}
+  One project as a list row, styled like a publication entry (see _pages/projects.md).
+  Expects `project` to be set by the caller.
+{%- endcomment -%}
+{% assign project_url = project.redirect | default: project.url | relative_url %}
+<li>
+  <div class="title"><a href="{{ project_url }}">{{ project.title }}</a></div>
+  <div class="author">{{ project.description }}</div>
+  {% if project.dates %}
+    <div class="periodical"><em>{{ project.dates }}</em></div>
+  {% endif %}
+  <div class="links">
+    <a href="{{ project_url }}" class="btn btn-sm z-depth-0" role="button">Details</a>
+    {% if project.github %}
+      <a href="{{ project.github }}" class="btn btn-sm z-depth-0" role="button">Code</a>
+    {% endif %}
+  </div>
+</li>

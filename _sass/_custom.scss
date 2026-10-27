@@ -1,0 +1,17 @@
+/*******************************************************************************
+ * Site-specific overrides on top of the al-folio theme
+ ******************************************************************************/
+@use "variables" as v;
+
+// Light theme accent: blue instead of al-folio's default purple.
+// Dark theme is untouched (html[data-theme="dark"] is more specific than :root).
+:root {
+  --global-theme-color: #{v.$blue-color};
+  --global-hover-color: #{v.$blue-color};
+  --global-code-bg-color: #{rgba(v.$blue-color, 0.05)};
+}
+
+// Rounded-square profile picture (used when profile.image_circular is false)
+.profile img.rounded {
+  border-radius: 1rem !important;
+}

@@ -1,45 +1,51 @@
 # ktzyskowski.github.io
 
-Personal site built with [Jekyll](https://jekyllrb.com/) and the [Minima](https://github.com/jekyll/minima) theme, deployed via GitHub Pages.
+Personal site at <https://www.ktzyskowski.com>, built with [Jekyll](https://jekyllrb.com/) and the [al-folio](https://github.com/alshedivat/al-folio) theme. Theme documentation lives in [`docs/`](docs/).
 
 ## Structure
 
-- `index.markdown` — landing page at `/`
-- `blog.md` — post listing at `/blog/` (uses minima's `home` layout)
-- `about.markdown` — about page at `/about/`
-- `_posts/` — blog posts (filename format: `YYYY-MM-DD-title.markdown`)
+- `_pages/about.md` — landing page at `/` (bio, photo, latest posts)
+- `_pages/blog.md` — post listing at `/blog/`
+- `_pages/publications.md` — rendered from `_bibliography/papers.bib`
+- `_pages/cv.md` — rendered from `_data/cv.yml`
+- `_posts/` — blog posts (`YYYY-MM-DD-title.md`)
+- `_drafts/` — unpublished posts
+- `_data/socials.yml` — email, GitHub, LinkedIn, etc.
 - `_config.yml` — site config
-- `_layouts/`, `_includes/`, `_sass/` — theme overrides
-
-Minima auto-populates the site nav from any page with a `title` in its front matter.
 
 ## Local development
 
-Requires Ruby (tested with 3.3.5) and Bundler.
+Requires [Docker](https://docs.docker.com/get-docker/) (on WSL, Docker Desktop with WSL integration enabled).
 
 ```bash
-bundle install
-bundle exec jekyll serve
+docker compose pull   # first time only, ~400MB
+docker compose up
 ```
 
-Site served locally at <http://localhost:4000>.
+Site served at <http://localhost:8080> and rebuilds on save. Changes to `_config.yml` need a restart: `docker compose restart`.
 
 ## Adding a blog post
 
-Create a file in `_posts/` named `YYYY-MM-DD-your-title.markdown` with front matter:
+Create `_posts/YYYY-MM-DD-your-title.md`:
 
 ```yaml
 ---
 layout: post
-title: "Your Title"
-date: YYYY-MM-DD HH:MM:SS -0500
+title: Your Title
+date: YYYY-MM-DD HH:MM:SS-0500
+description: one-line summary
+tags: ml
 ---
 ```
 
-### Drafting a blog post
+Math (`$$ ... $$`), code blocks, and Jupyter notebooks are supported; see `docs/CUSTOMIZE.md`.
 
-Create a file in `_drafts/` and once you're ready, follow the steps above to make it a published post.
+## Adding a publication
 
-## Troubleshooting
+Append a BibTeX entry to `_bibliography/papers.bib` (below the `---` lines). al-folio adds optional fields such as `abbr`, `selected={true}` (shows on the about page when `selected_papers: true`), `pdf`, `code`, `arxiv`, and `bibtex_show={true}`.
 
-**Bundler version mismatch:** If bundler complains the lockfile was generated with a different version, delete `Gemfile.lock` and re-run `bundle install`.
+Note: `%` lines are not treated as comments by the BibTeX parser, so don't leave commented-out entries in the file.
+
+## Deployment
+
+Pushing to `main` runs `.github/workflows/deploy.yml`, which builds the site and pushes the output to the `gh-pages` branch. In the repo's **Settings → Pages**, the source must be set to **Deploy from a branch → `gh-pages` / root**.

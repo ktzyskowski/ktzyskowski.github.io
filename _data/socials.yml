@@ -1,0 +1,9 @@
+# this file contains the social media links and usernames of the author
+# the socials will be displayed in the order they are defined here
+# for more information, please refer to the documentation of jekyll-socials plugin: https://github.com/george-gca/jekyll-socials
+cv_pdf: /assets/pdf/Kevin-Zyskowski-Resume.pdf # path to your CV PDF file (built in the resume repo with `make site`)
+email: ktzyskowski@gmail.com # your email address
+github_username: ktzyskowski # your GitHub user name
+linkedin_username: ktzyskowski # your LinkedIn user name
+# rss_icon: true # uncomment to show the RSS icon (once the blog has posts)
+# scholar_userid: # your Google Scholar ID

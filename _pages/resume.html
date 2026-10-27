@@ -1,0 +1,26 @@
+---
+layout: null
+title: resume
+permalink: /resume/
+nav: true
+nav_order: 3
+sitemap: false
+---
+
+{%- comment -%}
+  Menu entry and short URL (/resume/) for the resume PDF, which is built in the
+  resume repo with `make site`. Redirects straight to the file.
+{%- endcomment -%}
+{%- assign resume_pdf = '/assets/pdf/Kevin-Zyskowski-Resume.pdf' | relative_url -%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Resume | {{ site.first_name }} {{ site.last_name }}</title>
+    <meta http-equiv="refresh" content="0; url={{ resume_pdf }}">
+    <meta name="robots" content="noindex">
+  </head>
+  <body>
+    <p><a href="{{ resume_pdf }}">{{ site.first_name }} {{ site.last_name }}'s resume (PDF)</a></p>
+  </body>
+</html>
