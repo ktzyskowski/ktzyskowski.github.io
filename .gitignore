@@ -19,3 +19,7 @@ vendor
 # Python bytecode from bin/ helper scripts
 __pycache__/
 *.pyc
+
+# Full-resolution JMT film scans (only the resized copies are published)
+assets/img/jmt/Scan*.jpg
+assets/img/jmt/pack.jpg
