@@ -5,15 +5,11 @@ permalink: /
 subtitle: Applied ML Researcher
 
 profile:
-  align: right
   image: pointreyes.jpg
   image_circular: false # crops the image to make it circular
-  more_info: >
-    <p>Seattle, WA</p>
-    <p><a href="/resume/">Resume (PDF)</a></p>
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true # includes social icons at the bottom of the page
+social: false # includes social icons at the bottom of the page
 
 announcements:
   enabled: false # includes a list of news items
@@ -26,10 +22,12 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Hi! I'm Kevin, an applied ML researcher based in Seattle, WA. I earned my B.S. and M.S. from [Northeastern University](https://www.northeastern.edu/) in Boston, where my master's work was advised by [Prof. Rajagopal Venkat](https://rajagopalvenkat.com/).
+Hi! I'm Kevin (he/him/his), an applied ML researcher based in Seattle, WA. I earned my B.S. and M.S. from [Northeastern University](https://www.northeastern.edu/) in Boston, where my master's work was advised by [Prof. Rajagopal Venkat](https://rajagopalvenkat.com/).
 
-I'm currently doing independent research on biometric identification of players in third-person shooter games, with the goal of catching ban evasion.
+I'm currently doing independent research on biometric identification of players in third-person shooter games, with the goal of catching ban evasion. Previously, at [Staples](/staples/), I built an evaluation framework for information retrieval systems, and fine-tuned transformer embedding models for product matching.
 
-I'm looking for **applied ML roles**. If you're working on something interesting, feel free to reach out!
+I'm looking for **applied ML roles**. If you're working on something interesting, feel free to reach out at [ktzyskowski@gmail.com](mailto:ktzyskowski@gmail.com). Email is the best way to reach me! You can also find me on [GitHub](https://github.com/ktzyskowski) and [LinkedIn](https://www.linkedin.com/in/ktzyskowski).
 
-When I'm not doing research, I'm climbing outdoors, playing video games, or practicing guitar, usually under the supervision of my cat, Pasha.
+Outside work and research, you can find me climbing outdoors or practicing guitar, usually under the supervision of my cat, Pasha.
+
+{% include journey.liquid %}

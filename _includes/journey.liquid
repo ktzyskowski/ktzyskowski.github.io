@@ -1,0 +1,28 @@
+{%- comment -%}
+  "journey" timeline on the about page, from _data/journey.yml: dates aligned on
+  the dash, an icon on a vertical line, and the title (styled in _sass/_custom.scss).
+{%- endcomment -%}
+<h2>journey</h2>
+<ul class="journey">
+  {% for item in site.data.journey %}
+    <li{% if item.life %} class="life"{% endif %}>
+      <span class="journey-dates">
+        <span class="journey-start">{{ item.start }}</span>
+        {%- if item.end %}
+          <span class="journey-dash">–</span>
+          <span class="journey-end">{{ item.end }}</span>
+        {%- endif %}
+      </span>
+      <span class="journey-marker" aria-hidden="true">
+        {%- if item.icon -%}<i class="fa-solid fa-{{ item.icon }}"></i>{%- endif -%}
+      </span>
+      <span class="journey-title">
+        {%- if item.url -%}
+          <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+        {%- else -%}
+          {{ item.title }}
+        {%- endif -%}
+      </span>
+    </li>
+  {% endfor %}
+</ul>

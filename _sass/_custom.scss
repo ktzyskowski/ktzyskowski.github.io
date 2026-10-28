@@ -15,3 +15,169 @@
 .profile img.rounded {
   border-radius: 1rem !important;
 }
+
+// Profile photo as a block above the name (see _layouts/about.liquid)
+.profile-top {
+  width: 280px;
+  max-width: 60%;
+  margin-bottom: 1.5rem;
+}
+
+// "journey" timeline on the about page (_includes/journey.liquid):
+// start – end (aligned on the dash) | icon on a continuous vertical line | title
+.journey {
+  --journey-gap: 0.75rem; // space between entries; the line spans it
+  --journey-mark: 1.6rem; // icon badge size
+  --journey-mark-top: -0.1em; // aligns the badge with the first text line
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    display: grid;
+    grid-template-columns: auto var(--journey-mark) 1fr;
+    grid-template-areas: "dates marker title";
+    column-gap: 0.85rem;
+    padding-bottom: var(--journey-gap);
+  }
+
+  .journey-dates {
+    grid-area: dates;
+    display: grid;
+    grid-template-columns: 4.6rem 1.1rem 4.6rem;
+    color: var(--global-text-color-light);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .journey-start {
+    text-align: right;
+  }
+
+  .journey-dash {
+    text-align: center;
+  }
+
+  .journey-title {
+    grid-area: title;
+  }
+
+  .journey-marker {
+    grid-area: marker;
+    position: relative;
+
+    // the line, extended through the gap to the next entry
+    &::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: calc(-1 * var(--journey-gap));
+      width: 2px;
+      transform: translateX(-50%);
+      background: var(--global-divider-color);
+    }
+
+    // the icon badge, which masks the line behind it
+    i {
+      position: absolute;
+      left: 50%;
+      top: var(--journey-mark-top);
+      transform: translateX(-50%);
+      width: var(--journey-mark);
+      height: var(--journey-mark);
+      line-height: var(--journey-mark);
+      text-align: center;
+      font-size: 0.8rem;
+      border-radius: 50%;
+      color: var(--global-theme-color);
+      background: var(--global-bg-color);
+      border: 1.5px solid currentColor;
+    }
+  }
+
+  li:first-child .journey-marker::before {
+    top: var(--journey-mark-top);
+  }
+
+  li:last-child .journey-marker::before {
+    display: none;
+  }
+
+  // personal milestones get a muted icon
+  li.life .journey-marker i {
+    color: var(--global-text-color-light);
+  }
+
+  // narrow screens: dates above the title, line on the left
+  @media (max-width: 575.98px) {
+    li {
+      grid-template-columns: var(--journey-mark) 1fr;
+      grid-template-areas:
+        "marker dates"
+        "marker title";
+    }
+
+    .journey-dates {
+      display: block;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Project sections on a shared timeline line (_pages/staples.md), matching the journey timeline
+.stints {
+  --stint-mark: 2rem;
+  --stint-gap: 2.5rem;
+  padding-left: calc(var(--stint-mark) + 1rem);
+}
+
+.stint {
+  position: relative;
+  margin-bottom: var(--stint-gap);
+
+  // the line, from this icon down to the next one (none after the last)
+  &:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: calc(-1 * (var(--stint-mark) + 1rem) + var(--stint-mark) / 2);
+    top: 0.2rem;
+    bottom: calc(-1 * var(--stint-gap) - 0.2rem);
+    width: 2px;
+    transform: translateX(-50%);
+    background: var(--global-divider-color);
+  }
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 0.15rem;
+  }
+
+  .stint-icon {
+    position: absolute;
+    left: calc(-1 * (var(--stint-mark) + 1rem));
+    top: 0.2rem;
+    width: var(--stint-mark);
+    height: var(--stint-mark);
+    line-height: var(--stint-mark);
+    text-align: center;
+    font-size: 0.95rem;
+    border-radius: 50%;
+    color: var(--global-theme-color);
+    background: var(--global-bg-color);
+    border: 1.5px solid currentColor;
+  }
+
+  .stint-dates,
+  .stint-tags {
+    color: var(--global-text-color-light);
+  }
+
+  .stint-dates {
+    margin-bottom: 1rem;
+  }
+
+  .stint-tags {
+    font-size: 0.875rem;
+    margin-top: 0.75rem;
+  }
+}

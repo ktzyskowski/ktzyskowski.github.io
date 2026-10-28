@@ -8,32 +8,29 @@ category: research
 ---
 
 **From Input to Identity: An AI-Driven Approach to Player Identification in Counter-Strike 2**<br>
-M.S. thesis, Northeastern University, Sep 2024 – Apr 2025. Advised by [Prof. Rajagopal Venkat](https://rajagopalvenkat.com/).
+M.S. thesis, Northeastern University, April 2025. Advised by [Prof. Rajagopal Venkat](https://rajagopalvenkat.com/).
 
-## Question
+I've played Counter-Strike since a cousin visiting from Poland let me try his copy of Counter-Strike: Source. When someone is caught cheating, Valve bans their account, but nothing stops them from making a new one, and IP bans and hardware fingerprints can be dodged with a proxy or a virtual machine. Professional players who cheat are banned as people, not as accounts, because a referee can check who is sitting at the computer. My thesis asked whether a model could do something similar online: recognize the person behind the screen from how they move the mouse and press keys.
 
-Can a player be recognized from _how_ they play, from their mouse movement and keystrokes alone, without knowing which account they're on?
+## Two ways to look at a player
 
-## Data
+I scraped replays of professional matches from HLTV and parsed the mouse and keyboard input out of them. I tried two ways of representing a player.
 
-- Built a scraping and parsing pipeline (**Playwright + Polars**) that collected **1,000+ professional _Counter-Strike 2_ match replays** from HLTV and turned them into mouse and keystroke telemetry.
-- This produced **103K recoil-spray samples from 1,411 players**: short bursts of sustained fire, where each player's aim control is easy to compare.
-- Separately engineered **108 behavioral features** per 5-second window, covering keystroke timing, key-press entropy, and mouse speed and acceleration, over roughly **520 hours of gameplay from 154 players**.
+The first was recoil control. In Counter-Strike, an automatic rifle's recoil follows a fixed pattern, and players spend hours learning to pull against it. Every player makes this same motion many times a game, so I hoped the small differences in how they made it would work like a signature. I extracted about 103,000 AK-47 sprays from 1,411 players across 1,003 matches.
 
-## Model
+Sprays only capture the mouse, so the second representation added the keyboard. I cut each round into 5-second segments and summarized each one with 108 features: how long keys were held, the time between presses, the entropy of key sequences, and the speed, acceleration, and path of the mouse. This dataset covered about 520 hours of play from 154 players, all on one map (Dust II) to keep the noise down.
 
-A **Siamese LSTM** in PyTorch, trained with **online triplet mining** over packed variable-length sequences. It learns an embedding in which windows from the same player sit close together.
+## The model
 
-## Results
+Sequences of segments went through a Siamese LSTM trained with triplet loss, which learns an embedding where samples from the same player land close together. A classifier on top of the embeddings was meant to answer the real question: were these two samples played by the same person?
 
-- On **31 held-out players**, nearest-neighbor identification (5-NN) on the learned embeddings reached **22% accuracy against 3% chance**, about 7× chance.
-- Pairwise _verification_ (deciding whether two samples come from the same player) stayed near chance with random-forest and MLP verifiers. I traced this to missing **game context**: the same hand moves differently depending on what's happening in the game. As a next step, I proposed a cross-attention Transformer that fuses input dynamics with game state.
-- I also evaluated the embeddings with silhouette scores and t-SNE.
+## What happened
 
-## Deployment risk
+The results fell short of what I was hoping for. The training loss went down, but the embeddings didn't separate cleanly by player. There was some signal: among 31 held-out players, a nearest-neighbor classifier picked the right player 22% of the time, where random guessing gets about 3%. But the classifiers that decided whether two samples came from the same person did no better than a coin flip on players they hadn't seen.
 
-Any system like this can wrongly ban someone, and it may be biased against players with motor impairments. I recommended setting its decision threshold to favor missed detections over false accusations, with human review before any action.
+Looking back, I think the biggest thing holding it back was relying on hand-crafted features. I boiled every 5 seconds of play down to 108 statistics that I picked, which threw away most of the detail in the raw input and limited the model to whatever I thought mattered. A learned feature extractor, like a convolutional network over the raw tick-by-tick input, could pick up patterns I wouldn't have thought to measure. I listed this as future work in the thesis, and it's something I fixed in [PlayID](/projects/1_playid/).
+I also wrote about the risks of deploying something like this. A false match can get an innocent player banned, and a model that has seen few players with motor impairments could link them to each other. I recommended tuning the system to miss some evaders rather than accuse innocent players, and having moderators review its flags instead of banning automatically.
 
 ## What came next
 
-[PlayID](/projects/1_playid/) returns to this question with roughly 300× more accounts, a different game, and a stricter open-set evaluation.
+[PlayID](/projects/1_playid/) is my second attempt at the question, with roughly 300× more accounts, a different game, and a stricter open-set evaluation.

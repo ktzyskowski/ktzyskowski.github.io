@@ -1,0 +1,57 @@
+# Timeline shown under "journey" on the about page (_includes/journey.liquid).
+# Newest first, by start date; each degree goes below the roles held during it. `end` is optional (single-month events);
+# `url` links the title; `icon` is a Font Awesome solid icon name;
+# `life: true` marks personal milestones (muted icon).
+- start: Oct 2026
+  end: present
+  title: Independent research, PlayID
+  url: /projects/1_playid/
+  icon: flask
+- start: Aug 2026
+  end: Oct 2026
+  title: AI Engineer, The Mutual Group
+  icon: briefcase
+- start: Aug 2026
+  title: Moved to Seattle, WA
+  icon: truck-moving
+  life: true
+- start: Jun 2026
+  end: Jul 2026
+  title: Hiked the John Muir Trail (250 miles, 22 days)
+  url: /jmt/
+  icon: person-hiking
+  life: true
+- start: May 2026
+  title: Moved from Boston, MA to California, temporarily
+  icon: truck-moving
+  life: true
+- start: Sep 2024
+  end: Jan 2026
+  title: AI Engineer, Staples
+  url: /staples/
+  icon: briefcase
+- start: Jun 2024
+  end: Sep 2024
+  title: Machine Learning Intern, Staples
+  icon: briefcase
+- start: Sep 2023
+  end: Dec 2023
+  title: Graduate Teaching Assistant, Machine Learning, Northeastern University
+  icon: chalkboard-user
+- start: Sep 2023
+  end: May 2025
+  title: M.S. Artificial Intelligence, Northeastern University
+  url: /projects/2_thesis/
+  icon: graduation-cap
+- start: Jul 2022
+  end: Dec 2022
+  title: Software Development Co-op, Chewy
+  icon: code
+- start: May 2021
+  end: Aug 2021
+  title: Software Developer Intern, Voya Financial
+  icon: code
+- start: Sep 2019
+  end: Sep 2023
+  title: B.S. Computer Science, Northeastern University
+  icon: graduation-cap
