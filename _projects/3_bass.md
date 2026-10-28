@@ -10,24 +10,22 @@ github: https://github.com/ktzyskowski/bass-transcription
 
 Independent project, Jul – Aug 2026. Built with PyTorch, Demucs, mir_eval, and MLflow. [Code on GitHub](https://github.com/ktzyskowski/bass-transcription).
 
-## Goal
-
-Turn a song's bass line into notes. The input is bass audio separated from a full mix with **Demucs**, so the model has to cope with whatever artifacts the separator leaves behind.
-
-## Headline result
-
-Raised held-out note F1 on Demucs-separated audio from **0.74 to 0.88** (synthetic Slakh2100), entirely through **single-variable ablations**: no larger model and no extra data.
+This project transcribes bass lines from full songs. I separate the bass from the mix with Demucs, and a model transcribes the separated audio into notes. Since the model works on Demucs output instead of clean bass recordings, it has to deal with separation artifacts, like bleed from other instruments during rests.
 
 ## Model
 
-A multi-head temporal CNN in PyTorch with separate heads for **onset, voicing, and pitch**, operating on harmonic-CQT features. Its outputs are decoded into note events and scored with `mir_eval`.
+The model is a temporal CNN over harmonic-CQT features, with three output heads for onset, voicing, and pitch. I decode its outputs into notes and score them with `mir_eval`.
 
-## How the gains came
+## Results
 
-- **Error breakdown.** I split errors into over-segmentation, voicing, and pitch to find which one was the bottleneck at each stage. That showed the pYIN pitch tracker was capping recall. Replacing it with a learned pitch head added **+5.0 F1** on test.
-- **A padding bug.** Padding was being filled with 0 dB, the _loudest_ value, instead of −80 dB silence. After fixing it, stem dropout cut the penalty for a missing mixture from **24 F1 points to 3**, at a cost of 0.5 F1.
-- **A negative result.** I built a differentiable semi-Markov CRF decoder trained with truncated backpropagation through time, and traced a NaN gradient that appeared even though the forward pass was finite. The decoder still trailed simple greedy decoding by **4.1 F1** on held-out test, so I retired it.
+I changed one component at a time and measured each change, and improved note F1 on held-out Demucs-separated audio (Slakh2100) from 0.74 to 0.88, with the same model size and training data.
 
-## Out-of-domain check
+Breaking errors down into over-segmentation, voicing, and pitch errors showed that the pYIN pitch tracker was limiting recall. Replacing it with a learned pitch head added 5 F1 points on test.
 
-On real jazz recordings (FiloBass) the model reached **0.66 F1**. When I re-sorted its false positives, about **40%** turned out to be correctly pitched notes placed just outside the 50 ms onset tolerance. That means much of the drop is timing, not wrong notes.
+I also found a padding bug: padded frames were filled with 0 dB, the loudest value, instead of −80 dB silence. After the fix, stem dropout reduced the F1 drop from a missing mixture input from 24 points to 3, at a cost of 0.5 points.
+
+I implemented a differentiable semi-Markov CRF decoder, and debugged a NaN gradient that appeared even though the forward pass was finite. It still scored 4.1 F1 below greedy decoding on test, so I didn't use it.
+
+## Real recordings
+
+On real jazz recordings from FiloBass, the model reached 0.66 F1. About 40% of its false positives had the correct pitch but fell just outside the 50 ms onset tolerance, so much of the gap is in timing rather than pitch.

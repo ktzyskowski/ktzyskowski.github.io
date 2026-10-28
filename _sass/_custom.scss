@@ -181,3 +181,23 @@
     margin-top: 0.75rem;
   }
 }
+
+// Footer: sits at the end of the page instead of pinned to the window, and uses the page's
+// own colors so it reads quietly in both themes (the theme's footer is an inverted bar).
+footer.sticky-bottom {
+  margin-top: 3rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--global-divider-color);
+  background-color: var(--global-bg-color);
+  font-size: 0.8rem;
+  text-align: center;
+
+  .container,
+  a {
+    color: var(--global-text-color-light);
+  }
+  a:hover {
+    color: var(--global-theme-color);
+    text-decoration: none;
+  }
+}

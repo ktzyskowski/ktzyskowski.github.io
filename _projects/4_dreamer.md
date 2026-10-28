@@ -11,7 +11,7 @@ github: https://github.com/ktzyskowski/dreamer
 
 Independent project, Mar – Apr 2026. [Code on GitHub](https://github.com/ktzyskowski/dreamer).
 
-I reimplemented **DreamerV3** ([Hafner et al., 2023](https://arxiv.org/abs/2301.04104)) from the paper in PyTorch. DreamerV3 is an agent that learns a model of its environment, then trains its policy on rollouts _imagined_ inside that model rather than only on real experience.
+I find that the best way to learn how something works is to build it myself, so I reimplemented **DreamerV3** ([Hafner et al., 2023](https://arxiv.org/abs/2301.04104)) from the paper in PyTorch. DreamerV3 is a model-based reinforcement learning agent: it learns a model of its environment, then trains its policy on rollouts imagined inside that model, rather than only on real experience.
 
 <div class="row justify-content-sm-center">
     <div class="col-sm-8 mt-3 mt-md-0">
@@ -19,9 +19,11 @@ I reimplemented **DreamerV3** ([Hafner et al., 2023](https://arxiv.org/abs/2301.
     </div>
 </div>
 
+I kept the two halves separate, the same way the paper splits them. The world model (an RSSM with categorical latents) represents the environment, and the agent plans in it, with an actor-critic trained on imagined rollouts.
+
 ## Result
 
-Solved **CartPole-v1**, with a mean return of **491** over 100 greedy evaluation episodes, above the standard solve threshold of 475.
+The agent solves CartPole-v1, averaging a return of 491 over 100 evaluation episodes, above the standard solve threshold of 475.
 
 <div class="row justify-content-sm-center">
     <div class="col-sm-8 mt-3 mt-md-0">
@@ -29,15 +31,12 @@ Solved **CartPole-v1**, with a mean return of **491** over 100 greedy evaluation
     </div>
 </div>
 
-## What I built
+MiniGrid Memory, where the agent has to remember a cue over many steps, is still in progress. To test the memory part on its own, I built a small environment: the agent sees a cue, its observations go blank for a while, and then it has to act on the cue it saw.
 
-- The **RSSM world model** with categorical latents.
-- An **actor-critic trained in imagination**, with twohot reward and value heads and an EMA target critic.
-- A **custom environment** to test whether the world model can remember information over time.
+## Two silent bugs
 
-## Debugging silent failures
+The two hardest bugs I hit didn't throw any errors. Training ran, the losses went down, and the agent still didn't learn.
 
-Both of the hardest bugs let training run without errors while quietly producing the wrong result:
+The first was calling `sample()` instead of `rsample()` when drawing the stochastic latents. `sample()` doesn't pass gradients through, so part of the world model quietly stopped learning. This one took me a while to track down.
 
-- Using `sample()` instead of `rsample()` cut the gradients through the stochastic latents, so part of the model stopped learning.
-- Stochastic start states added noise to the KL term. I fixed it by masking the KL on the initial recurrent states.
+The second showed up in environments with random start states. At the first step, the prior only sees an empty recurrent state, so it has no way to predict which start it's in, but the KL term still pulled the posterior toward it. Masking the KL on those initial states fixed it. I haven't seen this handled explicitly in other public implementations.
